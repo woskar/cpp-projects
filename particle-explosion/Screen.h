@@ -17,7 +17,8 @@ private:
     SDL_Window * m_window;
     SDL_Renderer * m_renderer;
     SDL_Texture * m_texture;
-    Uint32 * m_buffer;
+    Uint32 * m_buffer1;
+    Uint32 * m_buffer2; //second buffer for blur screen
 
 public:
     // Constructor with initializer list
@@ -25,7 +26,8 @@ public:
     : m_window(NULL)
     , m_renderer(NULL)
     , m_texture(NULL)
-    , m_buffer(NULL)
+    , m_buffer1(NULL)
+    , m_buffer2(NULL)
     {}
 
     // True if init succeeds
@@ -37,7 +39,7 @@ public:
             return false;
         }
 
-        m_window = SDL_CreateWindow("Particle Fire Explosion",
+        m_window = SDL_CreateWindow("Particle Explosion",
                 SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED,
                 SCREEN_WIDTH, SCREEN_HEIGHT, SDL_WINDOW_SHOWN);
 
@@ -68,12 +70,13 @@ public:
             return false;
         }
 
-        m_buffer = new Uint32[SCREEN_WIDTH * SCREEN_HEIGHT];
+        // if everything worked out, allocate buffers
+        m_buffer1 = new Uint32[SCREEN_WIDTH * SCREEN_HEIGHT];
+        m_buffer2 = new Uint32[SCREEN_WIDTH * SCREEN_HEIGHT];
 
-        // make window white by setting all bytes in buffer to maximum value (255 = 0xFF)
-        // if value is 0, then screen is black.
-        memset(m_buffer, 0, SCREEN_WIDTH * SCREEN_HEIGHT * sizeof(Uint32));
-
+        // clear buffer, else there could be garbage
+        memset(m_buffer1, 0, SCREEN_WIDTH * SCREEN_HEIGHT * sizeof(Uint32));
+        memset(m_buffer2, 0, SCREEN_WIDTH * SCREEN_HEIGHT * sizeof(Uint32));
 
         // set individual pixel to white
         //m_buffer[2403] = 0xFFFFFFFF; // two f's for each red, green, blue, alpha
@@ -102,21 +105,78 @@ public:
         color <<= 8;
         color += 0xFF; //for alpha value
 
-        // go to right pixel and set color
-        m_buffer[(y * SCREEN_WIDTH) + x] = color;
+        // go to right pixel and set color in buffer1
+        m_buffer1[(y * SCREEN_WIDTH) + x] = color;
     }
 
-    // Clear the screen 
+    // Create a new screen with traces of particles
+    void boxBlur()
+    {
+        // write to buffer1, which is the one drawing to the screen
+        // swap pointers and store buffer1 into buffer2
+        Uint32 * temp = m_buffer1; // temporary buffer for swap
+        m_buffer1 = m_buffer2;
+        m_buffer2 = temp;
+
+        // Iterate over all pixels, apply blur algorithm, store to buffer1
+        for(int y=0; y<SCREEN_HEIGHT; ++y)
+        {
+            for(int x=0; x<SCREEN_WIDTH; ++x)
+            {
+                /*
+                 * Box blur will be created by averaging over 9 pixels
+                 * 0 0 0
+                 * 0 1 0
+                 * 0 0 0
+                 */
+
+                int redTotal = 0;
+                int greenTotal = 0;
+                int blueTotal = 0;
+
+                for(int row=-1; row<=1; row++)
+                {
+                    for(int col=-1; col<=1; col++)
+                    {
+                        int currentX = x + col;
+                        int currentY = y + row;
+
+                        // make sure we stay inside the borders of our window
+                        if(currentX >= 0 && currentX < SCREEN_WIDTH && currentY >= 0 && currentY < SCREEN_HEIGHT)
+                        {
+                            Uint32 color = m_buffer2[currentY*SCREEN_WIDTH + currentX];
+
+                            Uint8 red = color >> 24;
+                            Uint8 green = color >> 16;
+                            Uint8 blue = color >> 8;
+
+                            redTotal += red;
+                            greenTotal += green;
+                            blueTotal += blue;
+                        }
+                    }
+                }
+                Uint8 red = redTotal/9;
+                Uint8 green = greenTotal/9;
+                Uint8 blue = blueTotal/9;
+
+                setPixel(x, y, red, green, blue);
+            }
+        }
+    }
+
+    // Clear the screen
     void clear()
     {
-        memset(m_buffer, 0, SCREEN_WIDTH * SCREEN_HEIGHT * sizeof(Uint32));
+        memset(m_buffer1, 0, SCREEN_WIDTH * SCREEN_HEIGHT * sizeof(Uint32));
+        memset(m_buffer2, 0, SCREEN_WIDTH * SCREEN_HEIGHT * sizeof(Uint32));
     }
 
     // updating the screen
     void update()
     {
         // Drawing Code, putting pixel data to screen:
-        SDL_UpdateTexture(m_texture, NULL, m_buffer, SCREEN_WIDTH * sizeof(Uint32));
+        SDL_UpdateTexture(m_texture, NULL, m_buffer1, SCREEN_WIDTH * sizeof(Uint32));
         SDL_RenderClear(m_renderer);
         SDL_RenderCopy(m_renderer, m_texture, NULL, NULL);
         SDL_RenderPresent(m_renderer);
@@ -140,7 +200,8 @@ public:
     // Deallocation/Close-down function
     void close()
     {
-        delete[] m_buffer;
+        delete[] m_buffer1;
+        delete[] m_buffer2;
         SDL_DestroyRenderer(m_renderer);
         SDL_DestroyTexture(m_texture);
         SDL_DestroyWindow(m_window);

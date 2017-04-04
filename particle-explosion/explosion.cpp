@@ -1,5 +1,5 @@
 // run with:
-// g++ SDLbasics.cpp -o sdl -I/usr/local/Cellar/sdl2/2.0.5/include/SDL2 -D_THREAD_SAFE -L/usr/local/lib -lSDL2
+// g++ explosion.cpp -o explosion -I/usr/local/Cellar/sdl2/2.0.5/include/SDL2 -D_THREAD_SAFE -L/usr/local/lib -lSDL2
 
 #include <iostream>
 #include <stdio.h>
@@ -40,7 +40,7 @@ int main()
         swarm.update(elapsed);
 
         // Clear screen to have blank canvas
-        screen.clear();
+        //screen.clear();
 
 
         // create changing colors based on elapsed time
@@ -56,6 +56,9 @@ int main()
 
             screen.setPixel(x, y, red, green, blue);
         }
+
+        // Implement blur so particles leave traces
+        screen.boxBlur();
 
         // Draw the screen
         screen.update();
