@@ -191,6 +191,7 @@ public:
         {
             if(event.type == SDL_QUIT)
             {
+                //cout << SDL_GetTicks()<< endl; // output ending-time
                 return false;
             }
         }

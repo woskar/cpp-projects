@@ -6,7 +6,7 @@
 class Swarm {
 // A Swarm is an array of particles
 public:
-    const static int NPARTICLES = 3000;
+    const static int NPARTICLES = 4000;
 
 private:
     Particle * m_pParticles;

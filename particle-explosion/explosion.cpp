@@ -30,7 +30,7 @@ int main()
     {
         // Update particles
 
-        // return the number of seconds since program started
+        // return the number of milliseconds since SDL library initialized
         int elapsed = SDL_GetTicks();
 
         // Draw particles
@@ -44,9 +44,9 @@ int main()
 
 
         // create changing colors based on elapsed time
-        int red = (1 + cos(elapsed*0.001)) * 128;
-        int green = (1 + sin((elapsed+0.003)*0.0025)) * 128;
-        int blue = (1 + sin(elapsed*0.003)) * 128;
+        int red = (1 + sin((elapsed+11574)*0.0005)) * 128;
+        int green = (1 + sin((elapsed+11574)+0.0004)*0.0025) * 128;
+        int blue = (1 + sin((elapsed+11574)*0.0003)) * 128;
 
         for(int i=0; i<Swarm::NPARTICLES; ++i)
         {
