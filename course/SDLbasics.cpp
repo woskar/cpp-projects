@@ -1,6 +1,7 @@
 // run with:
-// g++ oldSDLbasics.cpp -o sdl -I/usr/local/Cellar/sdl2/2.0.5/include/SDL2 -D_THREAD_SAFE -L/usr/local/lib -lSDL2
-// this is the old running version, all in one file, the new one is split in SDL and Screen.h
+// g++ SDLbasics.cpp -o sdl -I/usr/local/Cellar/sdl2/2.0.5/include/SDL2 -D_THREAD_SAFE -L/usr/local/lib -lSDL2
+// this is the old running version of particle explosion
+// all in one file, the new one is split in SDL and Screen.h
 
 #include <iostream>
 #include <stdio.h>
