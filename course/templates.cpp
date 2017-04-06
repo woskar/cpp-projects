@@ -1,4 +1,5 @@
 #include <iostream>
+#include "ring.h"
 using namespace std;
 
 // template classes allow to design classes
@@ -60,6 +61,7 @@ void output(T t, K k)
 }
 
 
+
 int main()
 {
     // use a template class
@@ -81,6 +83,31 @@ int main()
     show<double>(); //this works, we have to tell the type
 
     output("Hi", 5);
+    cout << endl;
+
+// Working with Ring/circular buffer defined in Ring.h
+
+    ring<string> textring(3);
+
+    textring.add("one");
+    textring.add("two");
+    textring.add("three");
+    textring.add("four"); //this should overwrite one in the ring
+
+    // index based for loop works C++ 98 style
+    for(int i=0; i<textring.size(); i++)
+        cout << textring.get(i) << endl;
+    cout << endl;
+
+    // iterator based for loop works
+    for(ring<string>::iterator it = textring.begin(); it!=textring.end(); it++)
+        cout << *it << endl;
+    cout << endl;
+
+    // range based for loop works C++ 11 style
+    for(auto item: textring)
+        cout << item << endl;
+    cout << endl;
 
     return 0;
 }

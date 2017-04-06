@@ -12,6 +12,7 @@ struct Test // an abstract class
     virtual ~Test(){}
 };
 
+// This is the FUNCTOR
 // we could implement lots of different Tests that all derive from Test
 struct MatchTest: public Test // contains code to test some object
 {   // we overload the round bracket operator
