@@ -15,7 +15,10 @@ private:
 
 public:
     // Default Constructor
-    Cat()
+    Cat() // in C++11 we could here already call the Full Constructor
+          // the concept is called "delegating constructors"
+          // a C++98 alternative is to create an init-method
+          // watch out to not recursively define the constructors, tough.
     : name_("Ninja-cat")
     , age_(0)
     , happy_(true)
