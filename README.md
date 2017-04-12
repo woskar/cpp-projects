@@ -16,9 +16,15 @@ Basic code structure:
 
 Created April 2017
 
+----
+
 ## Game of Life
 
-This project was part of the C++ lecture ipi and is a simple implementation of Conway's [Game of Life](https://en.wikipedia.org/wiki/Conway%27s_Game_of_Life) using the image format [PGM](https://en.wikipedia.org/wiki/Netpbm_format) (Portable Graymap). Given an initial configuration of pixels, which correspond to "living cells", the algorithm determines which pixels will be lit in the next iteration. The program outputs a series of pgm-images which can be converted into an animated film using ffmpeg or ImageMagick with the command `convert -delay 6 conway_sim_*.pgm simulation.mpg`.
+This project was part of the C++ lecture ipi and is a simple implementation of Conway's [Game of Life](https://en.wikipedia.org/wiki/Conway%27s_Game_of_Life) using the image format [PGM](https://en.wikipedia.org/wiki/Netpbm_format) (Portable Graymap). 
+
+![game-of-life](https://cloud.githubusercontent.com/assets/16541141/24961043/dd2b0ba6-1f97-11e7-91c7-f262ccbf2d31.png)
+
+Given an initial configuration of pixels, which correspond to "living cells", the algorithm determines which pixels will be lit in the next iteration. The program outputs a series of pgm-images which can be converted into an animated film using ffmpeg or ImageMagick with the command `convert -delay 6 conway_sim_*.pgm simulation.mpg`.
 
 The rules are: 
 - cell with fewer than two live neighbours dies of isolation
