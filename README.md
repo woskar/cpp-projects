@@ -15,3 +15,15 @@ Basic code structure:
 - Swarm.h: creates and handles swarm as array of particles
 
 Created April 2017
+
+## Game of Life
+
+This project was part of the C++ lecture ipi and is a simple implementation of Conway's [Game of Life](https://en.wikipedia.org/wiki/Conway%27s_Game_of_Life) using the image format [PGM](https://en.wikipedia.org/wiki/Netpbm_format) (Portable Graymap). Given an initial configuration of pixels, which correspond to "living cells", the algorithm determines which pixels will be lit in the next iteration. The program outputs a series of pgm-images which can be converted into an animated film using ffmpeg or ImageMagick with the command `convert -delay 6 conway_sim_*.pgm simulation.mpg`.
+
+The rules are: 
+- cell with fewer than two live neighbours dies of isolation
+- cell with two or three live neighbours lives on
+- cell with more than three neighbours dies of overpopulation
+- a dead cell with exactly three live neighbours becomes a live cell
+
+Created March 2017
