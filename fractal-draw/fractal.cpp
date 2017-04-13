@@ -1,3 +1,7 @@
+// this is fractal.cpp, the *old* running main program of fractal-drawer
+// the functionality in this version is largely moved in FractalCreator.h
+// and the *new* main program is main.cpp
+
 #include <iostream>
 #include <cstdint>
 #include <memory>
@@ -99,7 +103,7 @@ int main()
                 double hue = 0.0;
                 for(int i=0; i<= iterations; ++i)
                     hue += ((double)histogram[i])/total;
-                green = pow(255, hue); // hue ranges from 0 to 1
+                green = hue * 255; // hue ranges from 0 to 1
             }
             bitmap.setPixel(x,y,red,green,blue);
         }
