@@ -2,8 +2,11 @@
 #include <cstdint>
 #include <memory>
 #include <cmath>
-#include "Bitmap.h"
+#include "Bitmap.h" // define Bitmap Properties
 #include "Mandelbrot.h"
+#include "Zoom.h" // Zoom class
+#include "ZoomList.h" // Store Zooms in vector
+#include "FractalCreator.h"
 using namespace std;
 
 // We want to write a Fractal Image to a bitmap, so we need
@@ -23,6 +26,12 @@ int main()
     double min = 999999;
     double max = -999999;
 
+    // Create a ZoomList to store the applied zooms
+    ZoomList zoomList(WIDTH, HEIGHT);
+    zoomList.add(Zoom(WIDTH/2, HEIGHT/2, 4.0/WIDTH));
+    zoomList.add(Zoom(295, HEIGHT - 202, 0.1));
+    zoomList.add(Zoom(313, HEIGHT - 300, 0.01));
+
     // Create Histogram for all the different iterations per pixels
     // array of integers stores the number of pixels, array index is number of iterations
     unique_ptr<int[]> histogram(new int[Mandelbrot::MAX_ITERATIONS ]{0});
@@ -34,13 +43,9 @@ int main()
     {
         for(int x=0; x<WIDTH; ++x)
         {
-            //bitmap.setPixel(x, y, 255, 0, 0);
-
-            // a temporary coordinate transformation
-            double xFractal = (x - WIDTH/2 - 150)* 2.0/HEIGHT;
-            double yFractal = (y - HEIGHT/2)* 2.0/HEIGHT;
+            pair<double, double> coords = zoomList.doZoom(x, y);
             // get iterations for every Pixel
-            int iterations = Mandelbrot::getIterations(xFractal, yFractal);
+            int iterations = Mandelbrot::getIterations(coords.first, coords.second);
 
             fractal[y*WIDTH+x] = iterations;
 
@@ -53,9 +58,9 @@ int main()
             uint8_t color = (uint8_t)(256 * (double)iterations/Mandelbrot::MAX_ITERATIONS);
             color = color*color*color; // will not overflow as we use uint8_t
             bitmap.setPixel(x,y,0,color,0);
-*/
             if(yFractal < min) min = yFractal;
             if(yFractal > max) max = yFractal;
+*/
         }
     }
 
@@ -96,13 +101,9 @@ int main()
                     hue += ((double)histogram[i])/total;
                 green = pow(255, hue); // hue ranges from 0 to 1
             }
-
             bitmap.setPixel(x,y,red,green,blue);
-
-
         }
     }
-
 
     bitmap.write("test.bmp");
     cout << "Program finished." << endl;
