@@ -4,6 +4,8 @@
 
 The Fractal Drawer draws the Mandelbrot-Set on BMP Images. 
 
+![mandel](https://cloud.githubusercontent.com/assets/16541141/25034849/d92e57b2-20e9-11e7-8426-207af7eba710.jpg)
+
 Code structure:
 - main.cpp: main program connecting the classes
 - fractal.cpp: old version before split up into classes
