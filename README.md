@@ -1,5 +1,25 @@
 # C++ Projects
 
+## Fractal Draw
+
+The Fractal Drawer draws the Mandelbrot-Set on BMP Images. 
+
+Code structure:
+- main.cpp: main program connecting the classes
+- fractal.cpp: old version before split up into classes
+- FractalCreator.h: does the actual drawing
+- RGB.h: Color handling
+- Zoom.h: defining a zoom
+- ZoomList.h: stores multiple Zooms in a vector
+- Mandelbrot.h: contains the Math behind the fractal
+- Bitmap.h: Initialize the BMP file
+- BitmapFileHeader: first data in Bitmap
+- BitmapInfoHeader: second data in Bitmap
+
+Created April 2017
+
+---
+
 ## Particle Explosion
 
 This program uses the Simple DirectMedia Layer [(SDL)](https://www.libsdl.org) to create a window where a swarm of particles performs an explosion-like motion with color-change.
@@ -8,7 +28,7 @@ This program uses the Simple DirectMedia Layer [(SDL)](https://www.libsdl.org) t
 
 Detailed instructions on how to create such a simulation can be found in this free  [udemy-course](https://www.udemy.com/free-learn-c-tutorial-beginners/). For the setup of SDL, see this [tutorial](http://lazyfoo.net/tutorials/SDL/01_hello_SDL/index.php). On my mac, I used Homebrew via `brew install sdl2` and compiled with g++ including the SDL-files with `g++ explosion.cpp -o explosion -I/usr/local/Cellar/sdl2/2.0.5/include/SDL2 -D_THREAD_SAFE -L/usr/local/lib -lSDL2`).
 
-Basic code structure:
+Code structure:
 - explosion.cpp: main program connects swarm and screen
 - Screen.h: sdl setup, window management, event handling, blur algorithm
 - Particle.h: particle class initializing and updating position and speed
