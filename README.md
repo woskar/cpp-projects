@@ -4,7 +4,7 @@
 
 The Fractal Drawer draws the Mandelbrot-Set on BMP Images. 
 
-![mandel](https://cloud.githubusercontent.com/assets/16541141/25034849/d92e57b2-20e9-11e7-8426-207af7eba710.jpg)
+![mandelsmall](https://cloud.githubusercontent.com/assets/16541141/26607306/2aa0b1d2-4596-11e7-8512-73da021b104c.jpg)
 
 The [Mandelbrot set](https://en.wikipedia.org/wiki/Mandelbrot_set) is the set of complex numbers c for which the function f(c)=z^2+c does not diverge. On the pictures, that's the black region inside the shape. It's at the margins of that shape where it gets interesting: The colors indicate how fast the function goes to infinity given each pixel, representing a point in the complex plane, as input.
 
